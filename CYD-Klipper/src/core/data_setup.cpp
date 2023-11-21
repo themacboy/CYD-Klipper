@@ -4,6 +4,7 @@
 #include "../conf/global_config.h"
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+#include "thumb_query.h"
 
 const char *printer_state_messages[] = {
     "Error",
@@ -31,6 +32,20 @@ void send_gcode(bool wait, const char *gcode)
     catch (...)
     {
         Serial.println("Failed to send gcode");
+    }
+}
+
+void on_state_change(){
+    if (printer.state == PRINTER_STATE_PRINTING || printer.state == PRINTER_STATE_PAUSED){
+        if (global_config.showGcodePreview && printer.print_thumb.data == NULL){
+            printer.print_thumb = fetch_gcode_thumb(printer.print_filename);
+        }
+    }
+    else {
+        if (printer.print_thumb.data != NULL){
+            free(printer.print_thumb.data);
+            printer.print_thumb.data = NULL;
+        }
     }
 }
 
@@ -153,6 +168,7 @@ void fetch_printer_data()
         if (printer.state != printer_state || emit_state_update)
         {
             printer.state = printer_state;
+            on_state_change();
             lv_msg_send(DATA_PRINTER_STATE, &printer);
         }
     }
@@ -178,5 +194,6 @@ void data_loop()
 void data_setup()
 {
     printer.print_filename = filename_buff;
+    printer.print_thumb = {0};
     fetch_printer_data();
 }

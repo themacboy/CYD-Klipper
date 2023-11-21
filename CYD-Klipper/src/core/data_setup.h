@@ -1,5 +1,7 @@
 #pragma once
 
+#include "thumb_query.h"
+
 enum {
     PRINTER_STATE_ERROR = 0,
     PRINTER_STATE_IDLE = 1,
@@ -23,8 +25,9 @@ typedef struct _Printer {
     float elapsed_time_s;
     float remaining_time_s;
     float filament_used_mm;
-    char* print_filename; // 0 -> 1
-    float print_progress;
+    char* print_filename; 
+    float print_progress; // 0 -> 1
+    ThumbImg print_thumb;
 } Printer;
 
 extern Printer printer;

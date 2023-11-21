@@ -80,6 +80,14 @@ static void on_during_print_switch(lv_event_t* e){
     WriteGlobalConfig();
 }
 
+static void gcode_preview_switch(lv_event_t * e){
+    auto state = lv_obj_get_state(lv_event_get_target(e));
+    bool checked = (state & LV_STATE_CHECKED == LV_STATE_CHECKED);
+    global_config.showGcodePreview = checked;
+    // No effect until a print is started or the device is reset
+    WriteGlobalConfig();
+}
+
 int y_offset = 0;
 const int y_element_size = 50;
 const int y_seperator_size = 1;
@@ -197,4 +205,12 @@ void settings_panel_init(lv_obj_t* panel){
         lv_obj_add_state(toggle, LV_STATE_CHECKED);
 
     create_settings_widget("Screen On During Print", toggle, panel);
+
+    toggle = lv_switch_create(panel);
+    lv_obj_add_event_cb(toggle, gcode_preview_switch, LV_EVENT_VALUE_CHANGED, NULL);
+
+    if (global_config.showGcodePreview)
+        lv_obj_add_state(toggle, LV_STATE_CHECKED);
+
+    create_settings_widget("GCode Preview Image", toggle, panel);
 }
