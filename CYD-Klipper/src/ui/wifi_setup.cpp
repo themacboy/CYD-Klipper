@@ -49,7 +49,7 @@ void wifi_pass_entry(const char* ssid){
     lv_obj_clean(lv_scr_act());
 
     lv_obj_t * root = lv_create_empty_panel(lv_scr_act());
-    lv_obj_set_size(root, CYD_SCREEN_WIDTH_PX, CYD_SCREEN_HEIGHT_PX);
+    lv_obj_set_size(root, CYD_SCREEN_WIDTH_PX, CYD_SCREEN_PANEL_HEIGHT_PX);
     lv_layout_flex_column(root);
 
     lv_obj_t * top_root = lv_create_empty_panel(root);
@@ -119,7 +119,7 @@ void wifi_init_inner(){
     lv_obj_clean(lv_scr_act());
 
     lv_obj_t * root = lv_create_empty_panel(lv_scr_act());
-    lv_obj_set_size(root, CYD_SCREEN_WIDTH_PX, CYD_SCREEN_HEIGHT_PX);
+    lv_obj_set_size(root, CYD_SCREEN_WIDTH_PX, CYD_SCREEN_PANEL_HEIGHT_PX);
     lv_layout_flex_column(root);
     lv_obj_set_style_pad_all(root, CYD_SCREEN_GAP_PX, 0);
 

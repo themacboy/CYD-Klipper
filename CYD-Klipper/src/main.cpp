@@ -13,6 +13,7 @@
 void setup() {
     Serial.begin(115200);
     Serial.println("Hello World");
+    Serial.println("Board: " ARDUINO_BOARD);
     LoadGlobalConfig();
     screen_setup();
     lv_setup();
